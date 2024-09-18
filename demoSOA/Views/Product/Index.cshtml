@@ -1,0 +1,41 @@
+﻿@using demoSOA.Models
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+                <td>@product.Price.ToString("C")</td> <!-- Format price as currency -->
+                <td>@product.Quantity</td>
+                <td>
+                    <a href="@Url.Action("Details", new { id = product.Id })" class="btn btn-info">Details</a>
+                    <a href="@Url.Action("Edit", new { id = product.Id })" class="btn btn-warning">Edit</a>
+                    <form asp-action="Delete" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@product.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create")" class="btn btn-primary">Create New Product</a>
